@@ -77,7 +77,7 @@ throw new Error('Method not implemented.');
         this.openSnackBar("Categoria Agregada", "Exito");
         this.getCategories();
       }else if( result == 2){
-        this.openSnackBar("Categoria No Agregada", "No Exito");
+        this.openSnackBar("Categoria No Agregada", "No Exito ergre");
       }
     })
   }
