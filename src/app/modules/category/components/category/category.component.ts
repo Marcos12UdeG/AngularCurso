@@ -110,7 +110,7 @@ throw new Error('Method not implemented.');
   delete(id:any){
     const dialogRef = this.dialog.open(ConfirmComponent,{
       width:"400px",
-      data:{id: id}
+      data:{id: id,module:"category"}
     });
     dialogRef.afterClosed().subscribe((result:any) => {
       if(result == 1){

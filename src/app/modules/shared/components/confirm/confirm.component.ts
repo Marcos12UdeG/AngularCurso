@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-confirm',
@@ -11,10 +12,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ConfirmComponent implements OnInit{
 
   private categoryService = inject(CategoryService)
+  private porductService = inject(ProductService);
   private dialoRef = inject(MatDialogRef)
   public data = inject(MAT_DIALOG_DATA)
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    console.log("Que onda perro");
   }
 
 
@@ -26,6 +28,13 @@ export class ConfirmComponent implements OnInit{
 
   delete(){
       if(this.data != null){
+        if(this.data.module == "product"){
+          this.porductService.EliminarProductos(this.data.id).subscribe((data:any)=>{
+            this.dialoRef.close(1);
+          },(error)=>{
+            this.dialoRef.close(2);
+          })
+        }else if(this.data.module == "category")
         this.categoryService.EliminarCategoria(this.data.id)
         .subscribe((data:any) =>{
           this.dialoRef.close(1);

@@ -16,7 +16,7 @@ export interface Category {
   styleUrls: ['./new-product.component.css']
 })
 export class NewProductComponent implements OnInit {
-  estadoFormulario: string = "Agregar Nuevo Producto";
+  estadoFormulario: string = "Agregar Producto";
   categories: Category[] = [];
   productForm!: FormGroup;
   selectdFile: any;
@@ -36,10 +36,17 @@ export class NewProductComponent implements OnInit {
       category: ['', Validators.required],
       picture: ['', Validators.required]
     });
+
+    if(this.data != null)
+      {
+        this.updateForm(this.data);
+        this.estadoFormulario = "Actualizar";
+      }
   }
 
   ngOnInit(): void {
     this.getCategories();
+    this.estadoFormulario;
   }
 
   onSave(): void {
@@ -58,6 +65,13 @@ export class NewProductComponent implements OnInit {
     uploadImageData.append('account',data.account);
     uploadImageData.append('categoryId',data.category);
 
+    if(data != null){
+      this.productService.EditarProductos(uploadImageData,this.data.id).subscribe((resp:any)=>{
+        this.dialogRef.close(1);
+      },(error:any)=>{
+        this.dialogRef.close(2);
+      })
+    }else{
     this.productService.AgregarProducts(uploadImageData)
     .subscribe((data:any) =>{
       this.dialogRef.close(1);
@@ -65,7 +79,7 @@ export class NewProductComponent implements OnInit {
       this.dialogRef.close(2);
     })
   }
-
+}
   onCancel(): void {
     this.dialogRef.close(3);
   }
@@ -86,5 +100,15 @@ export class NewProductComponent implements OnInit {
       console.log(this.selectdFile);
 
       this.nameImage = event.target.files[0].name;
+  }
+
+  updateForm(data:any){
+    this.productForm = this.fb.group({
+      name: [data.name, Validators.required],
+      price: [data.price, Validators.required],
+      account: [data.account, Validators.required],
+      category: [data.category, Validators.required],
+      picture: ['', Validators.required]
+    })
   }
 }

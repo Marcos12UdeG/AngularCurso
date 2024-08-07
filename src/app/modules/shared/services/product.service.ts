@@ -22,6 +22,17 @@ export class ProductService {
 
   BuscarProducts(name:any){
     const endpoint =`${url}/nombre/filter/${name}`;
-    return this.http.get(endpoint,name);
+    return this.http.get(endpoint);
+  }
+
+  EditarProductos(boyd:any,id:any){
+    const endpoint =`${url}/Actualizar/${id}`;
+    return this.http.put(endpoint,boyd)
+  }
+
+
+  EliminarProductos(id:any){
+    const endpoint =`${url}/eliminar/${id}`;
+    return this.http.delete(endpoint,id)
   }
 }
