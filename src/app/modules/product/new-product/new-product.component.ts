@@ -57,29 +57,30 @@ export class NewProductComponent implements OnInit {
       category: this.productForm.get('category')?.value,
       picture: this.selectdFile
     };
-
+  
     const uploadImageData = new FormData();
-    uploadImageData.append('picture',data.picture,data.picture.name);
-    uploadImageData.append('name',data.name);
-    uploadImageData.append('price',data.price);
-    uploadImageData.append('account',data.account);
-    uploadImageData.append('categoryId',data.category);
-
-    if(data != null){
-      this.productService.EditarProductos(uploadImageData,this.data.id).subscribe((resp:any)=>{
+    uploadImageData.append('picture', data.picture, data.picture.name);
+    uploadImageData.append('name', data.name);
+    uploadImageData.append('price', data.price);
+    uploadImageData.append('account', data.account);
+    uploadImageData.append('categoryId', data.category);
+  
+    if (this.data && this.data.id) {
+      this.productService.EditarProductos(uploadImageData, this.data.id).subscribe((resp: any) => {
         this.dialogRef.close(1);
-      },(error:any)=>{
+      }, (error: any) => {
         this.dialogRef.close(2);
-      })
-    }else{
-    this.productService.AgregarProducts(uploadImageData)
-    .subscribe((data:any) =>{
-      this.dialogRef.close(1);
-    },(error:any)=>{
-      this.dialogRef.close(2);
-    })
+      });
+    } else {
+      this.productService.AgregarProducts(uploadImageData)
+        .subscribe((data: any) => {
+          this.dialogRef.close(1);
+        }, (error: any) => {
+          this.dialogRef.close(2);
+        });
+    }
   }
-}
+  
   onCancel(): void {
     this.dialogRef.close(3);
   }
