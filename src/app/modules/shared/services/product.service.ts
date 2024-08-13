@@ -35,4 +35,11 @@ export class ProductService {
     const endpoint =`${url}/eliminar/${id}`;
     return this.http.delete(endpoint,id)
   }
+
+  ObtenerExcel(){
+    const endpoint = `${url}/products/export/excel`;
+    return this.http.get(endpoint,{
+      responseType:'blob'
+    });
+}
 }

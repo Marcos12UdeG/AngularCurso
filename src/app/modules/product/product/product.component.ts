@@ -121,6 +121,35 @@ export class ProductComponent implements OnInit{
       this.openSnackBar("Producto No Eliminado","No Exito");
     })
   }
+
+  export(){
+    this.productService.ObtenerExcel().subscribe((result: Blob) => {
+      // Crea un objeto URL para el archivo Blob
+      const url = window.URL.createObjectURL(result);
+  
+      // Crea un enlace temporal para descargar el archivo
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'products.xlsx';
+  
+      // Añade el enlace al DOM
+      document.body.appendChild(anchor);
+  
+      // Simula un clic en el enlace para iniciar la descarga
+      anchor.click();
+  
+      // Elimina el enlace del DOM
+      document.body.removeChild(anchor);
+  
+      // Revoca el objeto URL para liberar memoria
+      window.URL.revokeObjectURL(url);
+  
+      this.openSnackBar("Exportado correctamente", "Exitoso");
+    }, (error: any) => {
+      console.error('Error al descargar el archivo:', error);
+      this.openSnackBar("Se produjo un error", "No Exitoso");
+    });
+  }
 }
 
 export interface ProductElement {
